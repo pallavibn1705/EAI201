@@ -20,7 +20,7 @@ class PipeNetwork:
         x2, y2 = self.coordinates[b]
         return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
 
-#DFS
+    # DFS
     def dfs(self, start, target):
         visited = [False] * self.n
         path = []
@@ -48,7 +48,7 @@ class PipeNetwork:
         dfs_visit(start)
         return path, count_visited
 
-#BFS 
+    # BFS 
     def bfs(self, start, target):
         visited = [False] * self.n
         parent = [-1] * self.n
@@ -70,7 +70,6 @@ class PipeNetwork:
         if not visited[target]:
             return [], count_visited
 
-       
         path = []
         node = target
         while node != -1:
@@ -79,41 +78,30 @@ class PipeNetwork:
         path.reverse()
         return path, count_visited
 
- #Dijkstra's algorithm
-    def dijkstra(self, start, target):
-        dist = [math.inf] * self.n
-        parent = [-1] * self.n
-        dist[start] = 0
-        heap = [(0, start)]
+    # UCS
+    def ucs(self, start, target):
+        heap = [(0, start, [-1])]  # (cost, node, path_tracker)
+        visited = set()
         count_visited = 0
-        visited = [False] * self.n
 
         while heap:
-            cur_dist, u = heapq.heappop(heap)
-            if visited[u]:
+            cost, u, path = heapq.heappop(heap)
+            if u in visited:
                 continue
-            visited[u] = True
+            visited.add(u)
             count_visited += 1
+
+            new_path = path + [u]
             if u == target:
-                break
-            for v, cost in self.graph[u]:
-                if dist[v] > cur_dist + cost:
-                    dist[v] = cur_dist + cost
-                    parent[v] = u
-                    heapq.heappush(heap, (dist[v], v))
+                return new_path[1:], cost, count_visited  # remove dummy -1
 
-        if dist[target] == math.inf:
-            return [], math.inf, count_visited
+            for v, edge_cost in self.graph[u]:
+                if v not in visited:
+                    heapq.heappush(heap, (cost + edge_cost, v, new_path))
 
-        path = []
-        node = target
-        while node != -1:
-            path.append(node)
-            node = parent[node]
-        path.reverse()
-        return path, dist[target], count_visited
+        return [], math.inf, count_visited
 
-# A* algorithm 
+    # A* algorithm 
     def a_star(self, start, target):
         dist = [math.inf] * self.n
         parent = [-1] * self.n
@@ -180,11 +168,11 @@ def main():
     print("Total cost:", cost_bfs)
     print("Junctions visited:", visited_bfs)
 
-    print("\nDijkstra's algorithm :")
-    path_dij, cost_dij, visited_dij = network.dijkstra(start, target)
-    print("Path:", path_dij)
-    print("Total cost:", cost_dij)
-    print("Junctions visited:", visited_dij)
+    print("\nUniform Cost Search (UCS) :")
+    path_ucs, cost_ucs, visited_ucs = network.ucs(start, target)
+    print("Path:", path_ucs)
+    print("Total cost:", cost_ucs)
+    print("Junctions visited:", visited_ucs)
 
     print("\nA* algorithm :")
     path_astar, cost_astar, visited_astar = network.a_star(start, target)
@@ -192,5 +180,7 @@ def main():
     print("Total cost:", cost_astar)
     print("Junctions visited:", visited_astar)
 
+
 if __name__ == "__main__":
     main()
+
