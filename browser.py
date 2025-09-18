@@ -10,16 +10,17 @@ load_dotenv()
 async def main():
    
     task = """
-    You need to perform the following browser navigation related to the academic topic 'Differential Equations':
+      to perform the following browser navigation related to the academic topic 'Artificial Intelligence':
 
     1. Open https://en.wikipedia.org in the browser.
-    2. Search for "Differential Equations".
-    3. Click on the main article for "Differential Equation".
-    4. From there, follow the hyperlink to "Partial Differential Equation".
-    5. Then, navigate to the page on "Heat Equation" (a common PDE).
-    6. Next, go to the linked page on "Fourier Series" used in solving PDEs.
-    7. After that, visit the article about "Laplace Transform" (important in ODEs and PDEs).
-    8. Finally, navigate to the "Runge–Kutta methods" page for numerical solutions.
+    2. Search for "Artificial Intelligence".
+    3. Click on the main article for "Artificial Intelligence".
+    4. From there, follow the hyperlink to "Machine Learning".
+    5. Then, navigate to the page on "Deep Learning".
+    6. Next, go to the linked page on "Neural Networks".
+    7. After that, visit the article about "Natural Language Processing".
+    8. Finally, navigate to the "Reinforcement Learning" page.
+
     """
 
    
@@ -37,4 +38,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
