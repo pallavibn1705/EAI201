@@ -1,18 +1,14 @@
 import asyncio
-from browser_use import Agent  # Correct import
-from browser_use.llm import ChatOpenAI  # For the LLM model
-from browser_use.browser import BrowserSession  # If you want to define a session
+from browser_use import Agent 
+from browser_use.llm import ChatOpenAI  
 from dotenv import load_dotenv
-import os
+
 
 load_dotenv()
-# ensure you have OPENAI_API_KEY in your .env
+
 
 async def main():
-    # Optionally set up a browser session if needed
-    # session = BrowserSession(...)  
-
-    # Define your task
+   
     task = """
     You need to perform the following browser navigation related to the academic topic 'Differential Equations':
 
@@ -26,14 +22,13 @@ async def main():
     8. Finally, navigate to the "Runge–Kutta methods" page for numerical solutions.
     """
 
-    # Initialize the LLM
-    llm = ChatOpenAI(model="gpt-4o")  # Or another supported model
+   
+    llm = ChatOpenAI(model="gpt-4o")  
 
     agent = Agent(
         task=task,
         llm=llm,
-        # If you created a session, pass it:
-        # browser_session=session
+      
     )
 
     result = await agent.run()
@@ -42,3 +37,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
